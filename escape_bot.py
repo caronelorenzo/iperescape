@@ -1,5 +1,6 @@
 import os
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram import ParseMode
 from threading import Timer
 
@@ -8,15 +9,18 @@ TOKEN = os.environ.get("BOT_TOKEN")
 ADMIN_CHAT_ID = -1002510694303  # Sostituisci con il tuo chat_id del canale log
 
 # 🔍 Enigma
-ENIGMA = "È una sequenza ma non qualsiasi. Se la componi, la linea non cade mai."
+ENIGMA = "È una sequenza ma non qualsiasi, non ha volto nè voce ma può connetterti con chi ti occorre."
 RISPOSTE_CORRETTE = [
-    "il numero", "numero", "numero di telefono", "il numero di telefono", "numero telefonico"
+    "il numero", "numero", "numero di telefono", "il numero di telefono", "numero telefonico", "un numero di telefono", "un numero", "un numero telefonico"
 ]
 NUMERO_TELEFONO = "+39 3471652752"
 
 #VITE
-MAX_VITE = 3
-vite_utenti = {}  # dizionario per tracciare vite per ogni utente
+#MAX_VITE = 3
+#vite_utenti = {}  # dizionario per tracciare vite per ogni utente
+
+fase_utenti = {}  # "inizio", "attesa_numero"
+NUMERO_DECIFRATO = ["+393494521309", "3494521309"]
 
 #INDIZI PROGRAMMATI
 def invia_primo_indizio(context, chat_id):
@@ -28,11 +32,13 @@ def invia_secondo_indizio(context, chat_id):
 
 # 🧩 Indizi
 INDIZI = [
-    "Zi Nick bisbiglia: «Non cercare lettere… ma cifre. Quelle che danno voce ai vivi.»",
-    "Un nastro si riavvolge da solo: «Il pubblico componeva questa sequenza per parlare con la cabina…»",
+    "Non cercare lettere… ma cifre. Quelle che danno voce ai vivi.",
+    "Se lo digiti per intero qualcuno o qualcosa risponderà dal buio delle tenebre."
+    "Non ha volto nè voce ma può farti parlare con chiunque."
+    #"Un nastro si riavvolge da solo: «Il pubblico componeva questa sequenza per parlare con la cabina…»",
     #"Un vecchio telefono squilla nel vuoto: «Chi vuole uscire, deve comporre. Ma non qualsiasi numero… quello giusto.»",
     #"Un altoparlante gracchia: «Ciò che collega due mondi… sta tra le tue dita. Ma solo se premi i tasti giusti.»",
-    "La luce tremola sulla pellicola rotta: «La risposta non è una parola. È qualcosa che… si può digitare.»"
+    #"La luce tremola sulla pellicola rotta: «La risposta non è una parola. È qualcosa che… si può digitare.»"
 ]
 
 indizi_usati = {}
@@ -55,11 +61,11 @@ def start(update, context):
     indizi_usati[chat_id] = 0
 
     messaggio = (
-        "Benvenuto nel Cinema Abbandonato...\n\n"
-        "Io sono Zi Nick, proiezionista di spiriti e custode dell’ultimo enigma.\n"
-        "Risolvi questo, e potresti trovare la via d’uscita... o cadere nel buio:\n\n"
+        "Se la luce vuoi riportare risolvi questo:\n\n"
         f"{ENIGMA}\n\n"
-        "Scrivi la tua risposta, o chiedi un /indizio."
+        "Cosa sono?"
+        "Risolvi questo, e potresti trovare la via d’uscita... o cadere nel buio:\n\n"
+        "Scrivi la tua risposta, o premi /indizio per ricevere l'aiuto di Zi Nick."
     )
     context.bot.send_message(chat_id=chat_id, text=messaggio)
     log(update, context, risposta_bot="Ha avviato il bot con /start")
@@ -76,7 +82,7 @@ def indizio(update, context):
         log(update, context, risposta_bot=f"Indizio {count + 1}: {messaggio}")
     else:
         context.bot.send_message(chat_id=chat_id, text="Zi Nick tace. Non ci sono più indizi da dare.")
-        log(update, context, risposta_bot="Nessun indizio disponibile")
+        log(update, context, risposta_bot="Ha terminato gli indizi")
 
 # ✅ Verifica risposte
 def risposta(update, context):
@@ -84,52 +90,56 @@ def risposta(update, context):
     text = update.message.text.lower().strip()
 
     # Inizializza vite se non presenti
-    if chat_id not in vite_utenti:
-        vite_utenti[chat_id] = MAX_VITE
+    #if chat_id not in vite_utenti:
+    #    vite_utenti[chat_id] = MAX_VITE
 
     # Se ha finito le vite
-    if vite_utenti[chat_id] <= 0:
-        messaggio = (
-            "🎞️ Il proiettore si ferma.\n"
-            "Non puoi più tentare...\n"
-            "Zi Nick ti osserva nell’ombra. È finita per te."
-        )
-        context.bot.send_message(chat_id=chat_id, text=messaggio)
-        log(update, context, risposta_bot=messaggio)
-        return
+    #if vite_utenti[chat_id] <= 0:
+    #    messaggio = (
+    #        "🎞️ Il proiettore si ferma.\n"
+    #        "Non puoi più tentare...\n"
+    #        "Zi Nick ti osserva nell’ombra. È finita per te."
+    #    )
+    #    context.bot.send_message(chat_id=chat_id, text=messaggio)
+    #    log(update, context, risposta_bot=messaggio)
+    #    return
+    
+    if chat_id not in fase_utenti:
+        fase_utenti[chat_id] = "inizio"
 
-    # Risposta corretta
-    if text in RISPOSTE_CORRETTE:
-        messaggio = (
-            "🔓 La pellicola si muove...\n"
-            "Hai trovato la risposta giusta.\n\n"
-            "Zi Nick svanisce tra le tende rosse."
-        )
-        context.bot.send_message(chat_id=chat_id, text=messaggio)
-        
-        with open("immagine_ricompensa.png", "rb") as img:
-            context.bot.send_photo(chat_id=chat_id, photo=img)
-        log(update, context, risposta_bot=messaggio)
+    fase = fase_utenti[chat_id]
 
-        Timer(60.0, invia_primo_indizio, args=(context, chat_id)).start()
-        Timer(120.0, invia_secondo_indizio, args=(context, chat_id)).start()
+    if fase == "inizio":
+        if text in RISPOSTE_CORRETTE:
+            fase_utenti[chat_id] = "attesa_numero"
+            context.bot.send_message(chat_id=chat_id, text="La pellicola si muove... Un'immagine emerge dalla nebbia...")
 
-    else:
-        vite_utenti[chat_id] -= 1
-        tentativi_rimasti = vite_utenti[chat_id]
-        if tentativi_rimasti > 0:
-            errore = (
-                f"❌ Non è la risposta giusta.\n"
-                f"Hai ancora {tentativi_rimasti} tentativo{'i' if tentativi_rimasti > 1 else ''}..."
-            )
+            with open("immagine_ricompensa.png", "rb") as img:
+                context.bot.send_photo(chat_id=chat_id, photo=img)
+
+            Timer(60.0, invia_primo_indizio, args=(context, chat_id)).start()
+            Timer(120.0, invia_secondo_indizio, args=(context, chat_id)).start()
+
+            log(update, context, risposta_bot="Ha risolto l'enigma. Inviata immagine e programmati indizi.")
         else:
-            errore = (
-                "☠️ L’ultima speranza è svanita.\n"
-                "La risposta non verrà più accettata.\n"
-                "Zi Nick ti lascia al buio..."
-            )
-        context.bot.send_message(chat_id=chat_id, text=errore)
-        log(update, context, risposta_bot=errore)
+            context.bot.send_message(chat_id=chat_id, text="❌ Non è la risposta giusta. Riprova.")
+            log(update, context, risposta_bot="Risposta errata.")
+
+    elif fase == "attesa_numero":
+        if text.replace(" ", "") in NUMERO_DECIFRATO:
+            fase_utenti[chat_id] = "completato"
+            numero = NUMERO_TELEFONO
+            keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"tg://call?number={numero}")]]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+
+            context.bot.send_message(chat_id=chat_id, text="🔓 Hai decifrato il codice. È ora di comporlo.", reply_markup=reply_markup)
+            log(update, context, risposta_bot="Numero corretto, mostrato bottone per chiamata.")
+        else:
+            context.bot.send_message(chat_id=chat_id, text="❌ Questo numero non ha vita. Riprova.")
+            log(update, context, risposta_bot="Numero decifrato errato.")
+
+    elif fase == "completato":
+        context.bot.send_message(chat_id=chat_id, text="Hai già completato questa parte. La chiamata ti aspetta.")
 
 # ▶️ Avvio bot
 def main():
