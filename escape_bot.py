@@ -13,6 +13,10 @@ RISPOSTE_CORRETTE = [
 ]
 NUMERO_TELEFONO = "+39 3471652752"
 
+#VITE
+MAX_VITE = 3
+vite_utenti = {}  # dizionario per tracciare vite per ogni utente
+
 # 🧩 Indizi
 INDIZI = [
     "Zi Nick bisbiglia: «Non cercare lettere… ma cifre. Quelle che danno voce ai vivi.»",
@@ -70,18 +74,45 @@ def risposta(update, context):
     chat_id = update.effective_chat.id
     text = update.message.text.lower().strip()
 
+    # Inizializza vite se non presenti
+    if chat_id not in vite_utenti:
+        vite_utenti[chat_id] = MAX_VITE
+
+    # Se ha finito le vite
+    if vite_utenti[chat_id] <= 0:
+        messaggio = (
+            "🎞️ Il proiettore si ferma.\n"
+            "Non puoi più tentare...\n"
+            "Zi Nick ti osserva nell’ombra. È finita per te."
+        )
+        context.bot.send_message(chat_id=chat_id, text=messaggio)
+        log(update, context, risposta_bot=messaggio)
+        return
+
+    # Risposta corretta
     if text in RISPOSTE_CORRETTE:
         messaggio = (
-            "La pellicola si muove...\n"
+            "🔓 La pellicola si muove...\n"
             "Hai trovato la risposta giusta.\n\n"
-            f"Chiama questo numero: {NUMERO_TELEFONO}\n"
-            "…forse qualcuno risponderà.\n\n"
+            f"📞 Chiama questo numero: {NUMERO_TELEFONO}\n"
             "Zi Nick svanisce tra le tende rosse."
         )
         context.bot.send_message(chat_id=chat_id, text=messaggio)
         log(update, context, risposta_bot=messaggio)
     else:
-        errore = "Le tue parole si perdono nel buio. Non è la risposta giusta."
+        vite_utenti[chat_id] -= 1
+        tentativi_rimasti = vite_utenti[chat_id]
+        if tentativi_rimasti > 0:
+            errore = (
+                f"❌ Non è la risposta giusta.\n"
+                f"Hai ancora {tentativi_rimasti} tentativo{'i' if tentativi_rimasti > 1 else ''}..."
+            )
+        else:
+            errore = (
+                "☠️ L’ultima speranza è svanita.\n"
+                "La risposta non verrà più accettata.\n"
+                "Zi Nick ti lascia al buio..."
+            )
         context.bot.send_message(chat_id=chat_id, text=errore)
         log(update, context, risposta_bot=errore)
 
