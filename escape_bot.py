@@ -30,8 +30,8 @@ def invia_secondo_indizio(context, chat_id):
 INDIZI = [
     "Zi Nick bisbiglia: «Non cercare lettere… ma cifre. Quelle che danno voce ai vivi.»",
     "Un nastro si riavvolge da solo: «Il pubblico componeva questa sequenza per parlare con la cabina…»",
-    "Un vecchio telefono squilla nel vuoto: «Chi vuole uscire, deve comporre. Ma non qualsiasi numero… quello giusto.»",
-    "Un altoparlante gracchia: «Ciò che collega due mondi… sta tra le tue dita. Ma solo se premi i tasti giusti.»",
+    #"Un vecchio telefono squilla nel vuoto: «Chi vuole uscire, deve comporre. Ma non qualsiasi numero… quello giusto.»",
+    #"Un altoparlante gracchia: «Ciò che collega due mondi… sta tra le tue dita. Ma solo se premi i tasti giusti.»",
     "La luce tremola sulla pellicola rotta: «La risposta non è una parola. È qualcosa che… si può digitare.»"
 ]
 
@@ -113,7 +113,7 @@ def risposta(update, context):
 
         Timer(60.0, invia_primo_indizio, args=(context, chat_id)).start()
         Timer(120.0, invia_secondo_indizio, args=(context, chat_id)).start()
-        
+
     else:
         vite_utenti[chat_id] -= 1
         tentativi_rimasti = vite_utenti[chat_id]
