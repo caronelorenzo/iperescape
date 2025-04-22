@@ -4,7 +4,7 @@ from telegram import ParseMode
 
 # 🔐 Token da variabili d'ambiente (Railway)
 TOKEN = os.environ.get("BOT_TOKEN")
-ADMIN_CHAT_ID = -1001234567890  # Sostituisci con il tuo chat_id del canale log
+ADMIN_CHAT_ID = -68226596  # Sostituisci con il tuo chat_id del canale log
 
 # 🔍 Enigma
 ENIGMA = "È una sequenza ma non qualsiasi. Se la componi, la linea non cade mai."
