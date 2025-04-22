@@ -63,7 +63,7 @@ def start(update, context):
     messaggio = (
         "Se la luce vuoi riportare risolvi questo:\n\n"
         f"{ENIGMA}\n\n"
-        "Cosa sono?\n"
+        "Cos'è?\n"
         "Risolvi questo, e potresti trovare la via d’uscita... o cadere nel buio:\n\n"
         "*Scrivi la tua risposta, o premi /indizio per ricevere l'aiuto di Zi Nick.*"
     )
@@ -128,7 +128,7 @@ def risposta(update, context):
     elif fase == "attesa_numero":
         if text.replace(" ", "") in NUMERO_DECIFRATO:
             fase_utenti[chat_id] = "completato"
-            numero = NUMERO_TELEFONO
+            numero = NUMERO_DECIFRATO
             keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"tg://call?number={numero}")]]
             reply_markup = InlineKeyboardMarkup(keyboard)
 
