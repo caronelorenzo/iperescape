@@ -126,7 +126,7 @@ def risposta(update, context):
             log(update, context, risposta_bot="Risposta errata.")
 
     elif fase == "attesa_numero":
-        if text.replace(" ", "") in NUMERO_DECIFRATO:
+        if text.replace(" ", "") == NUMERO_DECIFRATO:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
             keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"tel:{numero}")]]
