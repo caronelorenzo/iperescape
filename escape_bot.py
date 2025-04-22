@@ -9,7 +9,7 @@ TOKEN = os.environ.get("BOT_TOKEN")
 ADMIN_CHAT_ID = -1002510694303  # Sostituisci con il tuo chat_id del canale log
 
 # 🔍 Enigma
-ENIGMA = "È una sequenza ma non qualsiasi, non ha volto nè voce ma può connetterti con chi ti occorre."
+ENIGMA = "\n*È una sequenza ma non qualsiasi, non ha volto nè voce ma può connetterti con chi ti occorre.*\n"
 RISPOSTE_CORRETTE = [
     "il numero", "numero", "numero di telefono", "il numero di telefono", "numero telefonico", "un numero di telefono", "un numero", "un numero telefonico"
 ]
@@ -20,7 +20,7 @@ NUMERO_TELEFONO = "+39 3471652752"
 #vite_utenti = {}  # dizionario per tracciare vite per ogni utente
 
 fase_utenti = {}  # "inizio", "attesa_numero"
-NUMERO_DECIFRATO = ["+393494521309", "3494521309"]
+NUMERO_DECIFRATO = "+393494521309"
 
 #INDIZI PROGRAMMATI
 def invia_primo_indizio(context, chat_id):
@@ -33,7 +33,7 @@ def invia_secondo_indizio(context, chat_id):
 # 🧩 Indizi
 INDIZI = [
     "Non cercare lettere… ma cifre. Quelle che danno voce ai vivi.",
-    "Se lo digiti per intero qualcuno o qualcosa risponderà dal buio delle tenebre."
+    "Se lo digiti per intero qualcuno o qualcosa risponderà dal buio delle tenebre.",
     "Non ha volto nè voce ma può farti parlare con chiunque."
     #"Un nastro si riavvolge da solo: «Il pubblico componeva questa sequenza per parlare con la cabina…»",
     #"Un vecchio telefono squilla nel vuoto: «Chi vuole uscire, deve comporre. Ma non qualsiasi numero… quello giusto.»",
@@ -63,9 +63,9 @@ def start(update, context):
     messaggio = (
         "Se la luce vuoi riportare risolvi questo:\n\n"
         f"{ENIGMA}\n\n"
-        "Cosa sono?"
+        "Cosa sono?\n"
         "Risolvi questo, e potresti trovare la via d’uscita... o cadere nel buio:\n\n"
-        "Scrivi la tua risposta, o premi /indizio per ricevere l'aiuto di Zi Nick."
+        "*Scrivi la tua risposta, o premi /indizio per ricevere l'aiuto di Zi Nick.*"
     )
     context.bot.send_message(chat_id=chat_id, text=messaggio)
     log(update, context, risposta_bot="Ha avviato il bot con /start")
