@@ -5,6 +5,7 @@ from telegram import ParseMode
 
 # Config
 TOKEN = os.environ.get("BOT_TOKEN")
+ADMIN_CHAT_ID = -68226596  # <-- usa il tuo chat_id qui
 
 ENIGMA = "È una sequenza ma non qualsiasi. Se la componi, la linea non cade mai."
 RISPOSTE_CORRETTE = [
@@ -20,6 +21,16 @@ INDIZI = [
 
 indizi_usati = {}
 
+def log(update, context, risposta_bot=None):
+    user = update.effective_user.full_name
+    user_msg = update.message.text
+
+    log_text = f"🗣️ {user} ha scritto:\n{user_msg}"
+    if risposta_bot:
+        log_text += f"\n\n🤖 Bot ha risposto:\n{risposta_bot}"
+
+    context.bot.send_message(chat_id=ADMIN_CHAT_ID, text=log_text)
+
 # Comandi
 def start(update, context):
     chat_id = update.effective_chat.id
@@ -30,9 +41,10 @@ def start(update, context):
         "Io sono *Zi Nick*, proiezionista di spiriti e custode dell'enigma che ti permetterà di procedere.\n"
         "Risolvi questo, e potresti trovare la via... o cadere nel buio:\n\n"
         f"🎭 *{ENIGMA}*\n\n"
-        "Scrivi la tua risposta, o chiedi un /indizio."
+        "Scrivi la tua risposta, o premi /indizio per chiedere aiuto a Zi Nick."
     )
     context.bot.send_message(chat_id=chat_id, text=messaggio, parse_mode=ParseMode.MARKDOWN)
+    log(update, context, risposta_bot="Ha avviato il bot con /start")
 
 def indizio(update, context):
     chat_id = update.effective_chat.id
@@ -41,8 +53,10 @@ def indizio(update, context):
     if count < len(INDIZI):
         context.bot.send_message(chat_id=chat_id, text=INDIZI[count], parse_mode=ParseMode.MARKDOWN)
         indizi_usati[chat_id] += 1
+        log(update, context, risposta_bot=f"Indizio {count + 1}: {messaggio}")
     else:
         context.bot.send_message(chat_id=chat_id, text="😶 Zi Nick tace. Non ci sono più indizi da dare.")
+        log(update, context, risposta_bot="Nessun indizio disponibile")
 
 def risposta(update, context):
     chat_id = update.effective_chat.id
@@ -59,12 +73,14 @@ def risposta(update, context):
                 "_Zi Nick svanisce tra le tende rosse._"
             ),
             parse_mode=ParseMode.MARKDOWN
+            log(update, context, risposta_bot=messaggio)
         )
     else:
         context.bot.send_message(
             chat_id=chat_id,
             text="❌ Le tue parole scivolano giù dal palcoscenico... e si perdono nel buio.",
             parse_mode=ParseMode.MARKDOWN
+            log(update, context, risposta_bot=errore)
         )
 
 def main():
