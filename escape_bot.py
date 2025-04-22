@@ -74,7 +74,7 @@ def risposta(update, context):
         log(update, context, risposta_bot=messaggio)
     else:
         context.bot.send_message(
-            errore = "❌ Le tue parole scivolano giù dal palcoscenico... e si perdono nel buio. *Non è la risposta giusta.*"
+            errore = "Le tue parole scivolano giù dal palcoscenico... *Non è la risposta giusta.*"
             context.bot.send_message(chat_id=chat_id, text=errore, parse_mode=ParseMode.MARKDOWN)
             log(update, context, risposta_bot=errore)
         )
