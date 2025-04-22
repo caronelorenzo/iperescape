@@ -1,9 +1,10 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import os
 
 # Dati configurabili
-TOKEN = '7940579077:AAHbaL1ZwON8gQGtPSfFt-Go2ZON5tIa3LA'
+TOKEN = os.environ.get("BOT_TOKEN")
 ENIGMA = "È una sequenza ma non qualsiasi. Se la componi la linea non cade mai."
-RISPOSTA_CORRETTA = ["il numero", "numero", "numero di telefono", "il numero di telefono", "numero telefonico"]
+RISPOSTE_CORRETTE = ["il numero", "numero", "numero di telefono", "il numero di telefono", "numero telefonico"]
 NUMERO_TELEFONO = "+39 3471652752"
 
 # Indizi che verranno dati a richiesta
@@ -36,8 +37,8 @@ def risposta(update, context):
     chat_id = update.effective_chat.id
     text = update.message.text.lower().strip()
 
-    if text == RISPOSTA_CORRETTA:
-        context.bot.send_message(chat_id=chat_id, text=f"Corretto! Giusto, quindi quale?")
+    if text in RISPOSTE_CORRETTE:
+        context.bot.send_message(chat_id=chat_id, text=f"Corretto! Quindi quale?")
     else:
         context.bot.send_message(chat_id=chat_id, text="Mmmm no, non è la risposta giusta. Riprova o chiedi un /indizio")
 
