@@ -1,6 +1,7 @@
 import os
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram import ParseMode
+from threading import Timer
 
 # 🔐 Token da variabili d'ambiente (Railway)
 TOKEN = os.environ.get("BOT_TOKEN")
@@ -16,6 +17,14 @@ NUMERO_TELEFONO = "+39 3471652752"
 #VITE
 MAX_VITE = 3
 vite_utenti = {}  # dizionario per tracciare vite per ogni utente
+
+#INDIZI PROGRAMMATI
+def invia_primo_indizio(context, chat_id):
+    context.bot.send_message(chat_id=chat_id, text="🕯️ Primo indizio: ogni simbolo è una cifra, trova il punto di partenza. Non è lo zero e fa la fiamma.")
+
+def invia_secondo_indizio(context, chat_id):
+    context.bot.send_message(chat_id=chat_id, text="📜 Secondo indizio: ogni cifra si ricava dall’associazione lettera-numero (es. A=1, B=2 ecc.)")
+
 
 # 🧩 Indizi
 INDIZI = [
@@ -97,9 +106,14 @@ def risposta(update, context):
             "Zi Nick svanisce tra le tende rosse."
         )
         context.bot.send_message(chat_id=chat_id, text=messaggio)
+        
         with open("immagine_ricompensa.png", "rb") as img:
             context.bot.send_photo(chat_id=chat_id, photo=img)
         log(update, context, risposta_bot=messaggio)
+
+        Timer(60.0, invia_primo_indizio, args=(context, chat_id)).start()
+        Timer(120.0, invia_secondo_indizio, args=(context, chat_id)).start()
+        
     else:
         vite_utenti[chat_id] -= 1
         tentativi_rimasti = vite_utenti[chat_id]
