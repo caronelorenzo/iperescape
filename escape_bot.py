@@ -94,10 +94,11 @@ def risposta(update, context):
         messaggio = (
             "🔓 La pellicola si muove...\n"
             "Hai trovato la risposta giusta.\n\n"
-            f"📞 Chiama questo numero: {NUMERO_TELEFONO}\n"
             "Zi Nick svanisce tra le tende rosse."
         )
         context.bot.send_message(chat_id=chat_id, text=messaggio)
+        with open("immagine_ricompensa.png", "rb") as img:
+            context.bot.send_photo(chat_id=chat_id, photo=img)
         log(update, context, risposta_bot=messaggio)
     else:
         vite_utenti[chat_id] -= 1
