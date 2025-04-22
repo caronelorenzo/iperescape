@@ -63,23 +63,19 @@ def risposta(update, context):
     text = update.message.text.lower().strip()
 
     if text in RISPOSTE_CORRETTE:
-        context.bot.send_message(
-            chat_id=chat_id,
-            text=(
-                "🔓 *La pellicola si muove...*\n"
-                "Hai trovato la risposta giusta.\n\n"
-                f"📞 Chiama *{NUMERO_TELEFONO}*\n"
-                "…forse qualcuno risponderà.\n\n"
-                "_Zi Nick svanisce tra le tende rosse._"
-            ),
-            parse_mode=ParseMode.MARKDOWN
-            log(update, context, risposta_bot=messaggio)
+        messaggio = (
+            "🔓 *La pellicola si muove...*\n"
+            "Hai trovato la risposta giusta.\n\n"
+            f"📞 Chiama *{NUMERO_TELEFONO}*\n"
+            "…forse qualcuno risponderà.\n\n"
+            "_Zi Nick svanisce tra le tende rosse._"
         )
+        context.bot.send_message(chat_id=chat_id, text=messaggio, parse_mode=ParseMode.MARKDOWN)
+        log(update, context, risposta_bot=messaggio)
     else:
         context.bot.send_message(
-            chat_id=chat_id,
-            text="❌ Le tue parole scivolano giù dal palcoscenico... e si perdono nel buio.",
-            parse_mode=ParseMode.MARKDOWN
+            errore = "❌ Le tue parole scivolano giù dal palcoscenico... e si perdono nel buio. *Non è la risposta giusta.*"
+            context.bot.send_message(chat_id=chat_id, text=errore, parse_mode=ParseMode.MARKDOWN)
             log(update, context, risposta_bot=errore)
         )
 
