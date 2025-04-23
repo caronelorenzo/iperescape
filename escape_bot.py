@@ -137,8 +137,8 @@ def risposta(update, context):
             with open("immagine_ricompensa.png", "rb") as img:
                 context.bot.send_photo(chat_id=chat_id, photo=img)
 
-            Timer(60.0, invia_primo_indizio, args=(context, chat_id)).start()
-            Timer(120.0, invia_secondo_indizio, args=(context, chat_id)).start()
+            Timer(180.0, invia_primo_indizio, args=(context, chat_id)).start()
+            Timer(300.0, invia_secondo_indizio, args=(context, chat_id)).start()
 
             log(update, context, risposta_bot="Ha risolto l'enigma. Inviata immagine e programmati indizi.")
         else:
