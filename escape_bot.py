@@ -148,9 +148,9 @@ def risposta(update, context):
     elif fase == "attesa_numero": 
         log(update, context, risposta_bot=f"Attendo numero")
         numero_utente = text.replace(" ", "").replace("-", "")
-        if numero_utente in NUMERO_DECIFRATO.replace(" ", "").replace("-", ""):
+        if numero_utente in [n.replace(" ", "").replace("-", "") for n in NUMERO_DECIFRATO]:
             fase_utenti[chat_id] = "completato"
-            numero = NUMERO_DECIFRATO
+            numero = numero_utente
             log(update, context, risposta_bot=f"Numero corretto ricevuto: {numero}")
             #keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"https://t.me/share/url?url={numero}&text=Chiama questo numero:")]]
             #reply_markup = InlineKeyboardMarkup(keyboard)
