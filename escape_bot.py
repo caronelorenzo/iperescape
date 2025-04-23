@@ -63,10 +63,10 @@ def start(update, context):
 
     messaggio = (
         "Se la luce vuoi riportare risolvi questo enigma:\n"
-        f"{ENIGMA}\n"
+        f"{ENIGMA}"
         "Cos'è?\n\n"
         "Risolvilo e potresti trovare la via d’uscita... o cadere nel buio.\n\n"
-        "Scrivi la tua risposta, o premi /indizio per ricevere l'aiuto di Zi Nick."
+        "*Scrivi la tua risposta, o premi /indizio per ricevere l'aiuto di Zi Nick.*"
     )
     context.bot.send_message(chat_id=chat_id, text=messaggio, parse_mode=ParseMode.MARKDOWN)
     log(update, context, risposta_bot="Ha avviato il bot con /start")
