@@ -148,7 +148,7 @@ def risposta(update, context):
     elif fase == "attesa_numero": 
         log(update, context, risposta_bot=f"Attendo numero")
         numero_utente = text.replace(" ", "").replace("-", "")
-        if numero_utente == NUMERO_DECIFRATO.replace(" ", "").replace("-", ""):
+        if numero_utente in NUMERO_DECIFRATO.replace(" ", "").replace("-", ""):
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
             log(update, context, risposta_bot=f"Numero corretto ricevuto: {numero}")
