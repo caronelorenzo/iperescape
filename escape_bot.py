@@ -88,7 +88,7 @@ def reset(update, context):
     log(update, context, risposta_bot="Ha richiesto il reset completo del bot.")
     
     # Riavvia automaticamente la sequenza con /start
-    #start(update, context)
+    start(update, context)
 
 # 🔦 /indizio
 def indizio(update, context):
