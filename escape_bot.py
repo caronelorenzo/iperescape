@@ -21,7 +21,7 @@ RISPOSTE_CORRETTE = [
 
 fase_utenti = {}  # "inizio", "attesa_numero"
 indizi_usati = {}
-NUMERO_DECIFRATO = ["+393494521309", "3494521309", "+39 349 452 1309"]
+NUMERO_DECIFRATO = "+393494521309"
 
 #INDIZI PROGRAMMATI
 def invia_primo_indizio(context, chat_id):
