@@ -150,6 +150,7 @@ def risposta(update, context):
         if text.replace(" ", "").replace("-", "") == NUMERO_DECIFRATO:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
+            context.bot.send_message(chat_id=chat_id, text="Ho ricevuto il numero. Controllo subito.")
             log(update, context, risposta_bot=f"Ha inviato il numero: {numero}")
 
             keyboard = [[InlineKeyboardButton("📞 Chiama ora", url="tel:+393494521309")]]
