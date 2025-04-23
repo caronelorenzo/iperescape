@@ -147,6 +147,7 @@ def risposta(update, context):
             log(update, context, risposta_bot="Risposta errata.")
 
     elif fase == "attesa_numero": 
+        log(update, context, risposta_bot=f"Attendo numero")
         numero_utente = text.replace(" ", "").replace("-", "")
         print(f"DEBUG — utente: {numero_utente}, atteso: {NUMERO_DECIFRATO}")
         log(update, context, risposta_bot=f"Numero ricevuto: {numero}")
