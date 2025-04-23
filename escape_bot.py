@@ -73,13 +73,22 @@ def start(update, context):
 
 def reset(update, context):
     chat_id = update.effective_chat.id
+
+    # Reset variabili utente
     fase_utenti.pop(chat_id, None)
-    indizi_usati.pop(chat_id, None)
+    if 'indizi_usati' in globals():
+        indizi_usati.pop(chat_id, None)
 
-    context.bot.send_message(chat_id=chat_id, text="🔄 *Bot resettato.* Ricominciamo...", parse_mode=ParseMode.MARKDOWN)
-    start(update, context)  # ← questo richiama direttamente la funzione di start
+    context.bot.send_message(
+        chat_id=chat_id,
+        text="🔄 *Bot resettato completamente.*\nRicomincio da capo...",
+        parse_mode=ParseMode.MARKDOWN
+    )
 
-    log(update, context, risposta_bot="Reset completo e riavviato con /start.")
+    log(update, context, risposta_bot="Ha richiesto il reset completo del bot.")
+    
+    # Riavvia automaticamente la sequenza con /start
+    start(update, context)
 
 # 🔦 /indizio
 def indizio(update, context):
@@ -137,7 +146,7 @@ def risposta(update, context):
             log(update, context, risposta_bot="Risposta errata.")
 
     elif fase == "attesa_numero":
-        if text.replace(" ", "") in [n.replace(" ", "") for n in NUMERI_DECIFRATI]:
+        if text.replace(" ", "") in [n.replace(" ", "") for n in NUMERO_DECIFRATO]:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
 
