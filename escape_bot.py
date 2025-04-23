@@ -146,7 +146,7 @@ def risposta(update, context):
             log(update, context, risposta_bot="Risposta errata.")
 
     elif fase == "attesa_numero":
-        if text.replace(" ", "") in [n.replace(" ", "") for n in NUMERO_DECIFRATO]:
+        if text.replace(" ", "") == NUMERO_DECIFRATO:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
 
