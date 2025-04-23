@@ -162,6 +162,7 @@ def risposta(update, context):
             keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"https://t.me/share/url?url={numero}&text=Chiama questo numero:")]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             context.bot.send_message(chat_id=chat_id, text="🔓 Hai decifrato il codice. È ora di comporlo.", reply_markup=reply_markup)
+            context.bot.send_message(chat_id=chat_id, text=f"📞 Componi questo numero:\n*{numero}*", parse_mode=ParseMode.MARKDOWN)
 
             log(update, context, risposta_bot="Numero corretto, mostrato bottone per chiamata.")
         else:
