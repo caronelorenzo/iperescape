@@ -156,17 +156,8 @@ def risposta(update, context):
             #reply_markup = InlineKeyboardMarkup(keyboard)
             #context.bot.send_message(chat_id=chat_id, text="🔓 Hai decifrato il codice. È ora di comporlo.", reply_markup=reply_markup)
 
-            context.bot.send_message(
-                chat_id=chat_id,
-                text="🎞️ Zi Nick sta componendo per te...",
-                parse_mode=ParseMode.MARKDOWN
-            )
-            Timer(3.0, lambda: context.bot.send_message(
-                chat_id=chat_id,
-                text="✨ La connessione si illumina nel buio...Una voce sussurra: *componi quel numero... se osi.*",
-                parse_mode=ParseMode.MARKDOWN
-            )).start()
-            context.bot.send_message(chat_id=chat_id, text=f"📞 Componi questo numero cliccando su di esso e poi su Chiamata Vocale Telegram:\n*{numero}*", parse_mode=ParseMode.MARKDOWN)
+            numero_mostrato = "+393494521309"
+            context.bot.send_message(chat_id=chat_id, text=f"📞 Clicca sul numero e poi su Chiamata Vocale Telegram:\n*{numero_mostrato}*", parse_mode=ParseMode.MARKDOWN)
             log(update, context, risposta_bot="Numero corretto, mostrato bottone per chiamata.")
         else:
             context.bot.send_message(chat_id=chat_id, text="❌ Questo numero non ha vita. Riprova.", parse_mode=ParseMode.MARKDOWN)
