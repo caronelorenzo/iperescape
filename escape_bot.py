@@ -20,7 +20,7 @@ NUMERO_TELEFONO = "+39 3471652752"
 #vite_utenti = {}  # dizionario per tracciare vite per ogni utente
 
 fase_utenti = {}  # "inizio", "attesa_numero"
-NUMERO_DECIFRATO = "+393494521309"
+NUMERO_DECIFRATO = ["+393494521309", "3494521309", "+39 349 452 1309"]
 
 #INDIZI PROGRAMMATI
 def invia_primo_indizio(context, chat_id):
@@ -69,6 +69,23 @@ def start(update, context):
     )
     context.bot.send_message(chat_id=chat_id, text=messaggio)
     log(update, context, risposta_bot="Ha avviato il bot con /start")
+
+def reset(update, context):
+    chat_id = update.effective_chat.id
+
+    # Rimuove stato e indizi
+    fase_utenti.pop(chat_id, None)
+    indizi_usati.pop(chat_id, None)
+
+    # Messaggio di reset completo
+    context.bot.send_message(
+        chat_id=chat_id,
+        text="🔄 *Tutto è stato cancellato.*\nPuoi ricominciare con /start.",
+        parse_mode=ParseMode.MARKDOWN
+    )
+
+    # Log dell'azione
+    log(update, context, risposta_bot="Ha eseguito un reset completo.")
 
 # 🔦 /indizio
 def indizio(update, context):
@@ -126,7 +143,7 @@ def risposta(update, context):
             log(update, context, risposta_bot="Risposta errata.")
 
     elif fase == "attesa_numero":
-        if text.replace(" ", "") == NUMERO_DECIFRATO:
+        if text.replace(" ", "") in NUMERO_DECIFRATO:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
 
