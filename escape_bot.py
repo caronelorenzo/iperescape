@@ -152,14 +152,14 @@ def risposta(update, context):
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
             log(update, context, risposta_bot=f"Numero corretto ricevuto: {numero}")
-            
+
             context.bot.send_message(
                 chat_id=chat_id,
                 text="✨ La connessione si illumina nel buio...\nUna voce sussurra: *componi quel numero... se osi.*",
                 parse_mode=ParseMode.MARKDOWN
             )
 
-            keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"tel:{numero}")]]
+            keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"https://t.me/share/url?url={numero}&text=Chiama questo numero:")]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             context.bot.send_message(chat_id=chat_id, text="🔓 Hai decifrato il codice. È ora di comporlo.", reply_markup=reply_markup)
 
