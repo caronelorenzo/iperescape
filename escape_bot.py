@@ -33,7 +33,7 @@ def invia_secondo_indizio(context, chat_id):
 
 # 🧩 Indizi
 INDIZI = [
-    "Non cercare lettere… ma cifre. Quelle che danno voce ai vivi.",
+    "Non cercare lettere ma cifre, quelle che danno voce ai vivi.",
     "Se lo digiti per intero qualcuno o qualcosa risponderà dal buio delle tenebre.",
     "Non ha volto nè voce ma può farti parlare con chiunque."
     #"Un nastro si riavvolge da solo: «Il pubblico componeva questa sequenza per parlare con la cabina…»",
@@ -62,13 +62,13 @@ def start(update, context):
     indizi_usati[chat_id] = 0
 
     messaggio = (
-        "Se la luce vuoi riportare risolvi questo:\n\n"
-        f"{ENIGMA}\n\n"
-        "Cos'è?\n"
-        "Risolvi questo, e potresti trovare la via d’uscita... o cadere nel buio:\n\n"
-        "*Scrivi la tua risposta, o premi /indizio per ricevere l'aiuto di Zi Nick.*"
+        "Se la luce vuoi riportare risolvi questo enigma:\n"
+        f"{ENIGMA}\n"
+        "Cos'è?\n\n"
+        "Risolvilo e potresti trovare la via d’uscita... o cadere nel buio.\n\n"
+        "Scrivi la tua risposta, o premi /indizio per ricevere l'aiuto di Zi Nick."
     )
-    context.bot.send_message(chat_id=chat_id, text=messaggio)
+    context.bot.send_message(chat_id=chat_id, text=messaggio, parse_mode=ParseMode.MARKDOWN)
     log(update, context, risposta_bot="Ha avviato il bot con /start")
 
 def reset(update, context):
