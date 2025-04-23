@@ -13,7 +13,7 @@ ENIGMA = "\n*È una sequenza ma non qualsiasi, non ha volto nè voce ma può con
 RISPOSTE_CORRETTE = [
     "il numero", "numero", "numero di telefono", "il numero di telefono", "numero telefonico", "un numero di telefono", "un numero", "un numero telefonico"
 ]
-NUMERO_TELEFONO = "+39 3471652752"
+#NUMERO_TELEFONO = "+39 3471652752"
 
 #VITE
 #MAX_VITE = 3
@@ -73,19 +73,19 @@ def start(update, context):
 def reset(update, context):
     chat_id = update.effective_chat.id
 
-    # Rimuove stato e indizi
+    # Cancella stato e indizi
     fase_utenti.pop(chat_id, None)
     indizi_usati.pop(chat_id, None)
 
-    # Messaggio di reset completo
+    # Messaggio all'utente
     context.bot.send_message(
         chat_id=chat_id,
-        text="🔄 *Tutto è stato cancellato.*\nPuoi ricominciare con /start.",
+        text="🔄 *Bot resettato completamente.*\nPuoi ricominciare con /start.",
         parse_mode=ParseMode.MARKDOWN
     )
 
-    # Log dell'azione
-    log(update, context, risposta_bot="Ha eseguito un reset completo.")
+    # Log
+    log(update, context, risposta_bot="Ha richiesto il reset completo del bot.")
 
 # 🔦 /indizio
 def indizio(update, context):
@@ -143,7 +143,7 @@ def risposta(update, context):
             log(update, context, risposta_bot="Risposta errata.")
 
     elif fase == "attesa_numero":
-        if text.replace(" ", "") in NUMERO_DECIFRATO:
+        if text.replace(" ", "") in [n.replace(" ", "") for n in NUMERI_DECIFRATI]:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
 
@@ -166,6 +166,8 @@ def main():
 
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("indizio", indizio))
+    dispatcher.add_handler(CommandHandler("reset", indizio))
+    dispatcher.add_handler(CommandHandler("restart", indizio))
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, risposta))
 
     updater.start_polling()
