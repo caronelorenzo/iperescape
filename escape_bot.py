@@ -21,7 +21,7 @@ RISPOSTE_CORRETTE = [
 fase_utenti = {}  # "inizio", "attesa_numero"
 indizi_usati = {}
 
-NUMERO_DECIFRATO = "+393494521309"
+NUMERO_DECIFRATO = ["+393494521309", "3494521309"]
 
 #INDIZI PROGRAMMATI
 def invia_primo_indizio(context, chat_id):
@@ -147,8 +147,7 @@ def risposta(update, context):
 
     elif fase == "attesa_numero": 
         log(update, context, risposta_bot=f"Attendo numero")
-        numero_utente = text.replace(" ", "").replace("-", "")
-        if numero_utente == NUMERO_DECIFRATO:
+        if numero_utente in [n.replace(" ", "").replace("-", "") for n in NUMERO_DECIFRATO]:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
             log(update, context, risposta_bot=f"Numero corretto ricevuto: {numero}")
@@ -163,7 +162,7 @@ def risposta(update, context):
             )
             Timer(3.0, lambda: context.bot.send_message(
                 chat_id=chat_id,
-                text="✨ La connessione si illumina nel buio.../n""Una voce sussurra: *componi quel numero... se osi.*",
+                text="✨ La connessione si illumina nel buio...Una voce sussurra: *componi quel numero... se osi.*",
                 parse_mode=ParseMode.MARKDOWN
             )).start()
             context.bot.send_message(chat_id=chat_id, text=f"📞 Componi questo numero cliccando su di esso e poi su Chiamata Vocale Telegram:\n*{numero}*", parse_mode=ParseMode.MARKDOWN)
