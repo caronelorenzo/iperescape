@@ -13,7 +13,6 @@ ENIGMA = "\n*È una sequenza ma non qualsiasi, non ha volto nè voce ma può con
 RISPOSTE_CORRETTE = [
     "il numero", "numero", "numero di telefono", "il numero di telefono", "numero telefonico", "un numero di telefono", "un numero", "un numero telefonico"
 ]
-#NUMERO_TELEFONO = "+39 3471652752"
 
 #VITE
 #MAX_VITE = 3
@@ -149,9 +148,7 @@ def risposta(update, context):
     elif fase == "attesa_numero": 
         log(update, context, risposta_bot=f"Attendo numero")
         numero_utente = text.replace(" ", "").replace("-", "")
-        print(f"DEBUG — utente: {numero_utente}, atteso: {NUMERO_DECIFRATO}")
-        log(update, context, risposta_bot=f"Numero ricevuto: {numero}")
-        if numero_utente == NUMERO_DECIFRATO.replace(" ", "").replace("-", ""):
+        if numero_utente == NUMERO_DECIFRATO:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
             log(update, context, risposta_bot=f"Numero corretto ricevuto: {numero}")
