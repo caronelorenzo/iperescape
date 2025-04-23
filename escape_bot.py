@@ -129,10 +129,11 @@ def risposta(update, context):
         if text.replace(" ", "") == NUMERO_DECIFRATO:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
-            keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"https://t.me/share/url?url=tel:{numero}")]]
-            reply_markup = InlineKeyboardMarkup(keyboard)
 
+            keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"tel:{numero}")]]
+            reply_markup = InlineKeyboardMarkup(keyboard)
             context.bot.send_message(chat_id=chat_id, text="🔓 Hai decifrato il codice. È ora di comporlo.", reply_markup=reply_markup)
+
             log(update, context, risposta_bot="Numero corretto, mostrato bottone per chiamata.")
         else:
             context.bot.send_message(chat_id=chat_id, text="❌ Questo numero non ha vita. Riprova.")
