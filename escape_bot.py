@@ -21,6 +21,7 @@ RISPOSTE_CORRETTE = [
 
 fase_utenti = {}  # "inizio", "attesa_numero"
 indizi_usati = {}
+
 NUMERO_DECIFRATO = "+393494521309"
 
 #INDIZI PROGRAMMATI
@@ -146,7 +147,7 @@ def risposta(update, context):
             log(update, context, risposta_bot="Risposta errata.")
 
     elif fase == "attesa_numero":
-        if text.replace(" ", "") == NUMERO_DECIFRATO:
+        if text.replace(" ", "").replace("-", "") == NUMERO_DECIFRATO:
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_DECIFRATO
             log(update, context, risposta_bot=f"Ha inviato il numero: {numero}")
