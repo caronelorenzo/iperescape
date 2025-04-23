@@ -147,20 +147,19 @@ def risposta(update, context):
             log(update, context, risposta_bot="Risposta errata.")
 
     elif fase == "attesa_numero":
-        if text.replace(" ", "").replace("-", "") == NUMERO_DECIFRATO:
-            fase_utenti[chat_id] = "completato"
-            numero = NUMERO_DECIFRATO
-            context.bot.send_message(chat_id=chat_id, text="Ho ricevuto il numero. Controllo subito.")
-            log(update, context, risposta_bot=f"Ha inviato il numero: {numero}")
-
-            keyboard = [[InlineKeyboardButton("📞 Chiama ora", url="tel:+393494521309")]]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            context.bot.send_message(chat_id=chat_id, text="🔓 Hai decifrato il codice. È ora di comporlo.", reply_markup=reply_markup)
-
-            log(update, context, risposta_bot="Numero corretto, mostrato bottone per chiamata.")
-        else:
-            context.bot.send_message(chat_id=chat_id, text="❌ Questo numero non ha vita. Riprova.")
-            log(update, context, risposta_bot="Numero decifrato errato.")
+        elif fase == "attesa_numero":
+            numero_utente = text.replace(" ", "").replace("-", "")
+            if numero_utente == NUMERO_DECIFRATO.replace(" ", "").replace("-", ""):
+                fase_utenti[chat_id] = "completato"
+                numero = NUMERO_TELEFONO
+                log(update, context, risposta_bot=f"Numero corretto ricevuto: {numero}")
+                keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"tel:{numero}")]]
+                reply_markup = InlineKeyboardMarkup(keyboard)
+                context.bot.send_message(chat_id=chat_id, text="🔓 Hai decifrato il codice. È ora di comporlo.", reply_markup=reply_markup)
+                log(update, context, risposta_bot="Numero corretto, mostrato bottone per chiamata.")
+            else:
+                context.bot.send_message(chat_id=chat_id, text="❌ Questo numero non ha vita. Riprova.", parse_mode=ParseMode.MARKDOWN)
+                log(update, context, risposta_bot="Numero decifrato errato.")
 
     elif fase == "completato":
         context.bot.send_message(chat_id=chat_id, text="Hai già completato questa parte. La chiamata ti aspetta.")
