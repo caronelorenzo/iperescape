@@ -152,7 +152,7 @@ def risposta(update, context):
         log(update, context, risposta_bot=f"Numero ricevuto: {numero}")
         if numero_utente == NUMERO_DECIFRATO.replace(" ", "").replace("-", ""):
             fase_utenti[chat_id] = "completato"
-            numero = NUMERO_TELEFONO
+            numero = NUMERO_DECIFRATO
             log(update, context, risposta_bot=f"Numero corretto ricevuto: {numero}")
             keyboard = [[InlineKeyboardButton("📞 Chiama ora", url=f"tel:{numero}")]]
             reply_markup = InlineKeyboardMarkup(keyboard)
