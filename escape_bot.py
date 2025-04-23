@@ -148,6 +148,7 @@ def risposta(update, context):
 
     elif fase == "attesa_numero": 
         numero_utente = text.replace(" ", "").replace("-", "")
+        print(f"DEBUG — utente: {numero_utente}, atteso: {NUMERO_DECIFRATO}")
         if numero_utente == NUMERO_DECIFRATO.replace(" ", "").replace("-", ""):
             fase_utenti[chat_id] = "completato"
             numero = NUMERO_TELEFONO
