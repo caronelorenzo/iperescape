@@ -20,6 +20,7 @@ RISPOSTE_CORRETTE = [
 #vite_utenti = {}  # dizionario per tracciare vite per ogni utente
 
 fase_utenti = {}  # "inizio", "attesa_numero"
+indizi_usati = {}
 NUMERO_DECIFRATO = ["+393494521309", "3494521309", "+39 349 452 1309"]
 
 #INDIZI PROGRAMMATI
@@ -72,20 +73,13 @@ def start(update, context):
 
 def reset(update, context):
     chat_id = update.effective_chat.id
-
-    # Cancella stato e indizi
     fase_utenti.pop(chat_id, None)
     indizi_usati.pop(chat_id, None)
 
-    # Messaggio all'utente
-    context.bot.send_message(
-        chat_id=chat_id,
-        text="🔄 *Bot resettato completamente.*\nPuoi ricominciare con /start.",
-        parse_mode=ParseMode.MARKDOWN
-    )
+    context.bot.send_message(chat_id=chat_id, text="🔄 *Bot resettato.* Ricominciamo...", parse_mode=ParseMode.MARKDOWN)
+    start(update, context)  # ← questo richiama direttamente la funzione di start
 
-    # Log
-    log(update, context, risposta_bot="Ha richiesto il reset completo del bot.")
+    log(update, context, risposta_bot="Reset completo e riavviato con /start.")
 
 # 🔦 /indizio
 def indizio(update, context):
@@ -166,8 +160,7 @@ def main():
 
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("indizio", indizio))
-    dispatcher.add_handler(CommandHandler("reset", indizio))
-    dispatcher.add_handler(CommandHandler("restart", indizio))
+    dispatcher.add_handler(CommandHandler("reset", reset))
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, risposta))
 
     updater.start_polling()
