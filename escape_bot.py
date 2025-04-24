@@ -62,7 +62,7 @@ def start(update, context):
     indizi_usati[chat_id] = 0
 
     messaggio = (
-        "Se la luce vuoi riportare risolvi questo enigma:\n"
+        "Se la luce vuoi riportare risolvi questo enigma utilizzando SOLO il cellulare:\n"
         f"{ENIGMA}"
         "Cos'è?\n\n"
         "Risolvilo e potresti trovare la via d’uscita... o cadere nel buio.\n\n"
