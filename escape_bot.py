@@ -33,8 +33,8 @@ def invia_secondo_indizio(context, chat_id):
 
 # 🧩 Indizi
 INDIZI = [
-    "È composto da cifre, quelle che danno voce ai vivi.",
-    "Se lo digiti per intero qualcuno o qualcosa risponderà dal buio delle tenebre.",
+    "È composto da cifre e connette i vivi fra loro.",
+    "Le cifre da cui è composto sono precisamente dieci.",
     "Non ha volto nè voce ma può farti parlare con chiunque."
     #"Un nastro si riavvolge da solo: «Il pubblico componeva questa sequenza per parlare con la cabina…»",
     #"Un vecchio telefono squilla nel vuoto: «Chi vuole uscire, deve comporre. Ma non qualsiasi numero… quello giusto.»",
