@@ -33,7 +33,7 @@ def invia_secondo_indizio(context, chat_id):
 
 # 🧩 Indizi
 INDIZI = [
-    "È composto da cifri, quelle che danno voce ai vivi.",
+    "È composto da cifre, quelle che danno voce ai vivi.",
     "Se lo digiti per intero qualcuno o qualcosa risponderà dal buio delle tenebre.",
     "Non ha volto nè voce ma può farti parlare con chiunque."
     #"Un nastro si riavvolge da solo: «Il pubblico componeva questa sequenza per parlare con la cabina…»",
@@ -134,7 +134,7 @@ def risposta(update, context):
             fase_utenti[chat_id] = "attesa_numero"
             context.bot.send_message(chat_id=chat_id, text="Quale sarà quindi questo numero?")
 
-            Timer(3.0, lambda: context.bot.send_photo(chat_id=chat_id, photo=open("immagine_ricompensa.png", "rb"))).start()
+            Timer(15.0, lambda: context.bot.send_photo(chat_id=chat_id, photo=open("immagine_ricompensa.png", "rb"))).start()
 
             #with open("immagine_ricompensa.png", "rb") as img:
             #    context.bot.send_photo(chat_id=chat_id, photo=img)
