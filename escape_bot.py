@@ -33,7 +33,7 @@ def invia_secondo_indizio(context, chat_id):
 
 # 🧩 Indizi
 INDIZI = [
-    "Non cercare lettere ma cifre, quelle che danno voce ai vivi.",
+    "È composto da cifri, quelle che danno voce ai vivi.",
     "Se lo digiti per intero qualcuno o qualcosa risponderà dal buio delle tenebre.",
     "Non ha volto nè voce ma può farti parlare con chiunque."
     #"Un nastro si riavvolge da solo: «Il pubblico componeva questa sequenza per parlare con la cabina…»",
@@ -66,7 +66,7 @@ def start(update, context):
         f"{ENIGMA}"
         "Cos'è?\n\n"
         "Risolvilo e potresti trovare la via d’uscita... o cadere nel buio.\n\n"
-        "*Scrivi la tua risposta, o premi /indizio per ricevere l'aiuto di Zi Nick.*"
+        "*Scrivi la tua risposta, o premi /indizio per ricevere gli aiuti di Zi Nick. (ATTENZIONE: non sono infiniti.)*"
     )
     context.bot.send_message(chat_id=chat_id, text=messaggio, parse_mode=ParseMode.MARKDOWN)
     log(update, context, risposta_bot="Ha avviato il bot con /start")
@@ -132,10 +132,12 @@ def risposta(update, context):
     if fase == "inizio":
         if text in RISPOSTE_CORRETTE:
             fase_utenti[chat_id] = "attesa_numero"
-            context.bot.send_message(chat_id=chat_id, text="La pellicola si muove... Un'immagine emerge dalla nebbia...")
+            context.bot.send_message(chat_id=chat_id, text="Quale sarà quindi questo numero?")
 
-            with open("immagine_ricompensa.png", "rb") as img:
-                context.bot.send_photo(chat_id=chat_id, photo=img)
+            Timer(3.0, lambda: context.bot.send_photo(chat_id=chat_id, photo=open("immagine_ricompensa.png", "rb"))).start()
+
+            #with open("immagine_ricompensa.png", "rb") as img:
+            #    context.bot.send_photo(chat_id=chat_id, photo=img)
 
             Timer(180.0, invia_primo_indizio, args=(context, chat_id)).start()
             Timer(300.0, invia_secondo_indizio, args=(context, chat_id)).start()
