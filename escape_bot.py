@@ -135,14 +135,16 @@ def risposta(update, context):
             context.bot.send_message(chat_id=chat_id, text="Quale sarà quindi questo numero?")
 
             Timer(15.0, lambda: context.bot.send_photo(chat_id=chat_id, photo=open("immagine_ricompensa.png", "rb"))).start()
-
+            log(update, context, risposta_bot="Ha risolto l'enigma. Inviata immagine e programmati indizi.")
             #with open("immagine_ricompensa.png", "rb") as img:
             #    context.bot.send_photo(chat_id=chat_id, photo=img)
 
             Timer(120.0, invia_primo_indizio, args=(context, chat_id)).start()
-            Timer(300.0, invia_secondo_indizio, args=(context, chat_id)).start()
+            log(update, context, risposta_bot="Ho inviato il primo indizio dopo la foto.")
 
-            log(update, context, risposta_bot="Ha risolto l'enigma. Inviata immagine e programmati indizi.")
+            Timer(300.0, invia_secondo_indizio, args=(context, chat_id)).start()
+            log(update, context, risposta_bot="Ho inviato il secondo indizio dopo la foto.")
+
         else:
             context.bot.send_message(chat_id=chat_id, text="❌ Non è la risposta giusta. Riprova.")
             log(update, context, risposta_bot="Risposta errata.")
