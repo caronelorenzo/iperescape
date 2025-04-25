@@ -26,9 +26,11 @@ NUMERO_DECIFRATO = ["+393494521309", "3494521309"]
 #INDIZI PROGRAMMATI
 def invia_primo_indizio(context, chat_id):
     context.bot.send_message(chat_id=chat_id, text="🕯️ Primo indizio: ogni simbolo è una cifra, trova il punto di partenza. Non è lo zero e fa la fiamma.")
+    log(update, context, risposta_bot="Ho inviato il primo indizio dopo la foto.")
 
 def invia_secondo_indizio(context, chat_id):
     context.bot.send_message(chat_id=chat_id, text="📜 Secondo indizio: ogni cifra si ricava dall’associazione lettera-numero (es. A=1, B=2 ecc.)")
+    log(update, context, risposta_bot="Ho inviato il secondo indizio dopo la foto.")
 
 
 # 🧩 Indizi
@@ -138,12 +140,8 @@ def risposta(update, context):
             log(update, context, risposta_bot="Ha risolto l'enigma. Inviata immagine e programmati indizi.")
             #with open("immagine_ricompensa.png", "rb") as img:
             #    context.bot.send_photo(chat_id=chat_id, photo=img)
-
             Timer(120.0, invia_primo_indizio, args=(context, chat_id)).start()
-            log(update, context, risposta_bot="Ho inviato il primo indizio dopo la foto.")
-
             Timer(300.0, invia_secondo_indizio, args=(context, chat_id)).start()
-            log(update, context, risposta_bot="Ho inviato il secondo indizio dopo la foto.")
 
         else:
             context.bot.send_message(chat_id=chat_id, text="❌ Non è la risposta giusta. Riprova.")
